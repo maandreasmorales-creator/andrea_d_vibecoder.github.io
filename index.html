@@ -338,95 +338,26 @@ footer p{font-size:.78rem;color:var(--muted)}
   <p>Built with AI · Shipped with love · 2026</p>
 </footer>
 
-<!-- CHATBOT -->
-<button id="chat-toggle" onclick="toggleChat()">💬<div class="cpulse"></div></button>
-
-<div id="chat-window">
-  <div class="chat-header">
-    <div class="chat-avatar">✦</div>
-    <div style="flex:1">
-      <div class="chat-header-name">Portfolio Guide</div>
-      <div class="chat-status">Online · AI-powered</div>
-    </div>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
-  </div>
-  <div class="chat-messages" id="chat-messages"></div>
-  <div class="chat-input-row">
-    <input class="chat-input" id="chat-input" placeholder="Ask about Andrea's portfolio..." onkeydown="if(event.key==='Enter')sendMessage()"/>
-    <button class="chat-send" id="send-btn" onclick="sendMessage()">➤</button>
-  </div>
-</div>
+<!-- Tawk.to Live Chat -->
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69ae895f2594681c37efc983/1jj8sh85o';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 
 <script>
 function toggleTheme(){
   const isLight=document.body.classList.toggle('light');
   document.getElementById('btn-dark').classList.toggle('active',!isLight);
   document.getElementById('btn-light').classList.toggle('active',isLight);
-}
-</script>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-
-<script>
-const PORTFOLIO_CONTEXT=`You are a friendly, enthusiastic tour guide for Ma. Andrea Morales's portfolio website. Be concise, warm, and a little playful. Keep answers 2-4 sentences.
-
-ABOUT: Ma. Andrea Morales is a vibe coding professional who builds apps, websites, landing pages, and automations using AI-powered coding tools. Skills: fast building, debugging, testing, UI improvement.
-
-TOOLS: Lovable (full-stack React+Supabase), Bolt.new (in-browser Node.js dev), Replit Agent (cloud IDE + autonomous AI coding), Claude AI (AI assistant), v0 by Vercel (UI builder).
-
-PROJECTS: QuickCart (Lovable) - e-commerce MVP. DataPulse (Bolt.new) - analytics dashboard. MindMap AI (Replit Agent) - AI mind-mapping tool.
-
-SERVICES: Discovery & Strategy, UI Design & Build, Build & Integration, Debugging & Testing, Project Enhancement, Retainers.
-
-STATS: 12+ projects shipped, 5 AI tools mastered, 48h avg build time.
-
-SECTIONS: Projects, Services, Tools.`;
-
-let chatOpen=false,messages=[],isTyping=false,greeted=false;
-
-function toggleChat(){
-  chatOpen=!chatOpen;
-  document.getElementById('chat-window').classList.toggle('open',chatOpen);
-  if(chatOpen&&!greeted){greeted=true;setTimeout(botGreet,400);}
-}
-function botGreet(){
-  appendMessage('bot',"Hey there! 👋 I'm Andrea's portfolio guide. Want a quick tour, or curious about a specific project or service?");
-  appendQuickButtons(["Give me a tour","View projects","What services?","How to work together?"]);
-}
-function appendMessage(role,text){
-  const c=document.getElementById('chat-messages');
-  const d=document.createElement('div');d.className=`msg ${role}`;
-  d.innerHTML=role==='bot'?`<div class="msg-avatar">✦</div><div class="msg-bubble">${text}</div>`:`<div class="msg-bubble">${text}</div>`;
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
-}
-function appendQuickButtons(opts){
-  const c=document.getElementById('chat-messages');
-  const w=document.createElement('div');w.className='quick-btns';
-  opts.forEach(o=>{const b=document.createElement('button');b.className='quick-btn';b.textContent=o;b.onclick=()=>{w.remove();handleUserMessage(o);};w.appendChild(b);});
-  c.appendChild(w);c.scrollTop=c.scrollHeight;
-}
-function showTyping(){
-  const c=document.getElementById('chat-messages');
-  const d=document.createElement('div');d.className='msg bot';d.id='typing-indicator';
-  d.innerHTML=`<div class="msg-avatar">✦</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
-}
-function hideTyping(){const e=document.getElementById('typing-indicator');if(e)e.remove();}
-async function handleUserMessage(text){
-  if(isTyping)return;
-  appendMessage('user',text);messages.push({role:'user',content:text});
-  isTyping=true;document.getElementById('send-btn').disabled=true;showTyping();
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:PORTFOLIO_CONTEXT,messages})});
-    const data=await res.json();
-    const reply=data.content?.map(b=>b.text||'').join('')||"Hmm, couldn't get a response. Try again!";
-    hideTyping();appendMessage('bot',reply);messages.push({role:'assistant',content:reply});
-  }catch(e){hideTyping();appendMessage('bot',"Oops — something went wrong. Try refreshing!");}
-  isTyping=false;document.getElementById('send-btn').disabled=false;
-}
-function sendMessage(){
-  const i=document.getElementById('chat-input');const t=i.value.trim();
-  if(!t||isTyping)return;i.value='';handleUserMessage(t);
 }
 </script>
 </body>
